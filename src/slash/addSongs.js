@@ -5,33 +5,21 @@ import { getEmbedOfCurrentQueue } from '../getCurrentQueueMessage.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('play')
-    .setDescription('loads songs from youtube')
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('song')
-        .setDescription('Loads a single song from a url')
-        .addStringOption(option =>
-          option.setName('url').setDescription("the song's url").setRequired(true)
-        )
-    )
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('playlist')
-        .setDescription('Loads a playlist of songs from a url')
-        .addStringOption(option =>
-          option.setName('url').setDescription("the playlist's url").setRequired(true)
-        )
+    .setName('add')
+    .setDescription('Plays a song/songs from youtube.')
+    .addStringOption(option =>
+      option.setName('url').setDescription('Youtube url').setRequired(true)
     ),
   run: async ({ client, interaction }) => {
     let embed = new EmbedBuilder();
     let url = interaction.options.getString('url');
+    let queue = client.player.createQueue(interaction.guild.id);
+    await queue.join(interaction.member.voice.channel);
+    let guildQueue = client.player.getQueue(interaction.guild.id);
+    const isAList = url.includes('list');
+    // const isNext = interaction.options.getSubcommand() === 'next';
 
-    if (interaction.options.getSubcommand() === 'song') {
-      let queue = client.player.createQueue(interaction.guild.id);
-      await queue.join(interaction.member.voice.channel);
-
-      let guildQueue = client.player.getQueue(interaction.guild.id);
+    if (!isAList) {
       let song = await queue.play(url).catch(err => {
         console.error('error on playing song action', err);
         if (!guildQueue) {
@@ -45,12 +33,8 @@ export default {
       }
 
       guildQueue.setRepeatMode(RepeatMode.QUEUE);
-
       embed = await getEmbedOfCurrentQueue(client, interaction, 0);
-    } else if (interaction.options.getSubcommand() === 'playlist') {
-      let queue = client.player.createQueue(interaction.guild.id);
-      await queue.join(interaction.member.voice.channel);
-      let guildQueue = client.player.getQueue(interaction.guild.id);
+    } else {
       let playListMetaData = await queue.playlist(url).catch(err => {
         console.error('error on playing song action', err);
         if (!guildQueue) {
@@ -64,10 +48,7 @@ export default {
       }
 
       guildQueue.setRepeatMode(RepeatMode.QUEUE);
-
       embed = await getEmbedOfCurrentQueue(client, interaction, 0);
-    } else if (interaction.options.getSubcommand() === 'search') {
-      return interaction.editReply('Stay tune');
     }
     await interaction.editReply({
       embeds: [embed],

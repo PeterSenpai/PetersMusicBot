@@ -24,11 +24,11 @@ client.on('interactionCreate', interaction => {
 client.login(TOKEN);
 
 // for testing
-// /play song https://www.youtube.com/watch?v=CgvwIQfNCPo
-// /play song https://www.youtube.com/watch?v=V1Pl8CzNzCw
-// /play song https://www.youtube.com/watch?v=viimfQi_pUw
-// /play song https://www.youtube.com/watch?v=DyDfgMOUjCI
-// /play song https://www.youtube.com/watch?v=HUHC9tYz8ik
-// /play playlist https://www.youtube.com/playlist?list=PLh7jOgIfINLPUsV3K3avm0XrQOvudVmz7
+// /add https://www.youtube.com/watch?v=CgvwIQfNCPo
+// /add https://www.youtube.com/watch?v=V1Pl8CzNzCw
+// /add https://www.youtube.com/watch?v=viimfQi_pUw
+// /add https://www.youtube.com/watch?v=DyDfgMOUjCI
+// /add https://www.youtube.com/playlist?list=PLh7jOgIfINLPUsV3K3avm0XrQOvudVmz7
+// /playnext https://www.youtube.com/watch?v=HUHC9tYz8ik
 
-// /play playlist https://www.youtube.com/watch?v=KV75YuUM3Hg&list=RDMMKV75YuUM3Hg&start_radio=1
+// /add https://www.youtube.com/watch?v=KV75YuUM3Hg&list=RDMMKV75YuUM3Hg&start_radio=1
