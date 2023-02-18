@@ -3,8 +3,9 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { setupClient } from './getDiscordClient.js';
 import * as fs from 'fs';
+import { Client } from 'discord.js';
 
-const DeployCommands = async () => {
+const DeployCommands = async (): Promise<Client> => {
   dotenv.config();
 
   const TOKEN = process.env.TOKEN;
