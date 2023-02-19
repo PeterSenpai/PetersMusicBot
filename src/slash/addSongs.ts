@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { EmbedBuilder } from 'discord.js';
+import { AutocompleteInteraction, Client, EmbedBuilder, Interaction, GuildMember, CommandInteraction } from 'discord.js';
 import { RepeatMode } from 'discord-music-player';
 import { getEmbedOfCurrentQueue } from '../getCurrentQueueMessage.js';
 
@@ -7,17 +7,14 @@ export default {
   data: new SlashCommandBuilder()
     .setName('add')
     .setDescription('Plays a song/songs from youtube.')
-    .addStringOption(option =>
-      option.setName('url').setDescription('Youtube url').setRequired(true)
-    ),
-  run: async ({ client, interaction }) => {
+    .addStringOption(option => option.setName('url').setDescription('Youtube url').setRequired(true)),
+  run: async ({ client, interaction }: { client: Client; interaction: Interaction }) => {
     let embed = new EmbedBuilder();
-    let url = interaction.options.getString('url');
+    let url = (interaction as AutocompleteInteraction).options.getString('url');
     let queue = client.player.createQueue(interaction.guild.id);
-    await queue.join(interaction.member.voice.channel);
+    await queue.join((interaction.member as GuildMember).voice.channel);
     let guildQueue = client.player.getQueue(interaction.guild.id);
     const isAList = url.includes('list');
-    // const isNext = interaction.options.getSubcommand() === 'next';
 
     if (!isAList) {
       let song = await queue.play(url).catch(err => {
@@ -29,7 +26,7 @@ export default {
       });
 
       if (!song) {
-        return interaction.editReply('No song was found.');
+        return (interaction as CommandInteraction).editReply('No song was found.');
       }
 
       guildQueue.setRepeatMode(RepeatMode.QUEUE);
@@ -44,13 +41,13 @@ export default {
       });
 
       if (!playListMetaData) {
-        return interaction.editReply('No playlist was found.');
+        return (interaction as CommandInteraction).editReply('No playlist was found.');
       }
 
       guildQueue.setRepeatMode(RepeatMode.QUEUE);
       embed = await getEmbedOfCurrentQueue(client, interaction, 0);
     }
-    await interaction.editReply({
+    await (interaction as CommandInteraction).editReply({
       embeds: [embed],
     });
   },

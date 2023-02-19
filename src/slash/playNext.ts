@@ -7,9 +7,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('playnext')
     .setDescription('Plays a song/songs from youtube.')
-    .addStringOption(option =>
-      option.setName('url').setDescription('Youtube url').setRequired(true)
-    ),
+    .addStringOption(option => option.setName('url').setDescription('Youtube url').setRequired(true)),
   run: async ({ client, interaction }) => {
     let embed = new EmbedBuilder();
     let url = interaction.options.getString('url');

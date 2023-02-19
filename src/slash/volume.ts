@@ -10,9 +10,7 @@ export default {
       subcommand
         .setName('set')
         .setDescription('set volume')
-        .addStringOption(option =>
-          option.setName('percentage').setDescription('percentage').setRequired(true)
-        )
+        .addStringOption(option => option.setName('percentage').setDescription('percentage').setRequired(true))
     ),
   run: async ({ client, interaction }) => {
     let guildQueue = client.player.getQueue(interaction.guild.id);
@@ -24,9 +22,7 @@ export default {
       let percentage = interaction.options.getString('percentage');
       guildQueue.setVolume(parseInt(percentage));
       await interaction.editReply({
-        embeds: [
-          new EmbedBuilder().setDescription(`Setting the volume to ${parseInt(percentage)}`),
-        ],
+        embeds: [new EmbedBuilder().setDescription(`Setting the volume to ${parseInt(percentage)}`)],
       });
     }
   },

@@ -5,9 +5,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('queue')
     .setDescription('displays the current song queue')
-    .addNumberOption(option =>
-      option.setName('page').setDescription('Page number of the queue').setMinValue(1)
-    ),
+    .addNumberOption(option => option.setName('page').setDescription('Page number of the queue').setMinValue(1)),
 
   run: async ({ client, interaction }) => {
     const guildQueue = client.player.getQueue(interaction.guildId);

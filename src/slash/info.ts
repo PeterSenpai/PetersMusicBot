@@ -3,9 +3,7 @@ import { EmbedBuilder } from 'discord.js';
 import { getEmbedOfCurrentQueue } from '../getCurrentQueueMessage.js';
 
 export default {
-  data: new SlashCommandBuilder()
-    .setName('info')
-    .setDescription('Displays info about the currently playing song'),
+  data: new SlashCommandBuilder().setName('info').setDescription('Displays info about the currently playing song'),
   run: async ({ client, interaction }) => {
     const guildQueue = client.player.getQueue(interaction.guildId);
 
@@ -15,12 +13,7 @@ export default {
     let bar = guildQueue.createProgressBar();
     const song = guildQueue.nowPlaying;
     return await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setThumbnail(song.thumbnail)
-          .setDescription(`**Currently Playing [${song.name}](${song.url})**\n\n` + bar.prettier),
-        embed,
-      ],
+      embeds: [new EmbedBuilder().setThumbnail(song.thumbnail).setDescription(`**Currently Playing [${song.name}](${song.url})**\n\n` + bar.prettier), embed],
     });
   },
 };

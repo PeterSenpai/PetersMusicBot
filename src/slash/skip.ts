@@ -12,12 +12,7 @@ export default {
     const embed = await getEmbedOfCurrentQueue(client, interaction, 1000);
 
     return await interaction.editReply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(`**${skippedSong.name} has been skipped!**`)
-          .setThumbnail(skippedSong.thumbnail),
-        embed,
-      ],
+      embeds: [new EmbedBuilder().setDescription(`**${skippedSong.name} has been skipped!**`).setThumbnail(skippedSong.thumbnail), embed],
     });
   },
 };

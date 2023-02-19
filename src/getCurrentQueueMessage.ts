@@ -1,10 +1,6 @@
 import { Client, EmbedBuilder, Interaction } from 'discord.js';
 
-const getEmbedOfCurrentQueue = async (
-  client: Client,
-  interaction: Interaction,
-  timeout: number = 500
-): Promise<EmbedBuilder> => {
+const getEmbedOfCurrentQueue = async (client: Client, interaction: Interaction, timeout: number = 500): Promise<EmbedBuilder> => {
   await new Promise(resolve => setTimeout(resolve, timeout));
   let { songs } = client.player.getQueue(interaction.guild.id);
   let displayMessage = '**Currently Playing**:\n';
