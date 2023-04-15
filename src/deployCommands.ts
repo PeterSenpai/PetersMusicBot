@@ -15,7 +15,8 @@ const DeployCommands = async (): Promise<Client> => {
   const client = setupClient();
   let commands = [];
 
-  const slashFiles = fs.readdirSync('./src/slash').filter(file => file.endsWith('.js'));
+  const slashFiles = await fs.readdirSync('./dist/slash').filter(file => file.endsWith('.js'));
+  console.log(slashFiles);
 
   for (const file of slashFiles) {
     const { default: slashcmd } = await import(`./slash/${file}`);
@@ -29,7 +30,9 @@ const DeployCommands = async (): Promise<Client> => {
     .put(Routes.applicationGuildCommands(APPLICATION_ID, SERVER_ID), {
       body: commands,
     })
-    .then(() => {
+    .then(res => {
+      console.log(commands);
+
       console.log('Deployment Succeeded');
     })
     .catch(err => {
